@@ -48,7 +48,7 @@ app.post('/posts' , verifyToken, upload.single("picture") , createPost);
 
 // Routes
 
-app.use('/auth' , authRoutes);
+app.use('/auth' , authRoutes); 
 app.use('/user' , userRoutes);
 app.use('/posts ', postRoutes);
 
@@ -58,12 +58,13 @@ mongoose.connect(process.env.CONNECTION_URL ,{useNewUrlParser:true , useUnifiedT
     app.listen(PORT, ()=>{
         console.log("server active at 3001  DATABASE connected")
         // User.insertMany(users);
-        // Post.insertMany(posts);
+        Post.insertMany(posts);
+        
     })
 })
 .catch((error) =>{
     console.log(error.message)
-    console.log('did not connect')
+    console.log('Did not connect')
 })
 
 // mongoose.set('useFindAndModify' , false);

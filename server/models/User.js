@@ -2,15 +2,15 @@ import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
 
-    firstname:{
-       type :String,
+    firstname:{ 
+       type : String,
        required :true,
-       minimum:2,
+       minlength:2,
        maximum:50,
 
     },
     lastname:{
-        type:String,
+        type: String,
         required :true,
         minimum:2,
         maximum:50,
@@ -25,26 +25,26 @@ const UserSchema = new mongoose.Schema({
         
      },
      password:{
-        type:String,
+        type: String,
         required :true,
         min:5,
         
      },
 
      picturePath:{
-        type:String,
+        type: String,
        default:" "
         
      },
      friends:{
-        type:Array,
+        type: Array,
         default:[]
      },
 
-     location:String,
-     occupation:String,
+     location: String,
+     occupation: String,
      viewedProfile: Number,
-     impressions:Number,
+     impressions: Number,
 
 
    

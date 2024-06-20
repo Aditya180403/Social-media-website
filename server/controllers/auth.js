@@ -4,7 +4,7 @@ import User from "../models/User.js";
 
 export const register = async (req, res) => {
   try {
-    const {
+    const { 
       firstname,
       lastname,
       email,
@@ -15,7 +15,13 @@ export const register = async (req, res) => {
       occupation,
     } = req.body;
 
-   const salt = await bcrypt.gensalt();
+    if (!firstname || !lastname || !email || !password) {
+      return res.status(400).json({ error: 'Firstname, lastname, email, and password are required' });
+    }
+
+
+
+   const salt = await bcrypt.genSalt();
    const passwordHash = await bcrypt.hash(password ,  salt);
 
    const newUser = new User({
@@ -32,7 +38,7 @@ export const register = async (req, res) => {
    })
    const savedUser = await  newUser.save();
    res.status(201).json(savedUser)
-  } catch (error) {
+  } catch (err) {
     res.status(500).json({error: err.message});
   }
 };
@@ -42,10 +48,10 @@ export const login = async(req,res) =>{
     try {
         const{email, password } = req.body;
        const user = await User.findOne({email:email});
-       if(!user)  return res.status(400).json('User does not exist');
+       if(!user)  return res.status(400).json({msg:'User does not exist'});
 
        const isMatch = await bcrypt.compare(password,user.password);
-       if(!isMatch) return  res.status(400).json('invalid credentials');
+       if(!isMatch) return  res.status(400).json({msg:'invalid credentials'});
 
        const token = jwt.sign({id : user._id}, process.env.KEY);
        delete user.password;
@@ -54,4 +60,4 @@ export const login = async(req,res) =>{
     } catch (error) {
         res.status(500).json({error: err.msg});
     }
-}
+};
